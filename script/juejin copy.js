@@ -1,9 +1,6 @@
 const fetch = require('node-fetch');
-// const sendMail = require('./sendMail');
 
-// const [user, pass, to] = process.argv.slice(2);
-// process.env.user = user;
-// process.env.pass = pass;
+
 let score = 0;
 const cookie = 'ttcid=223923626c6e4dffa92653a9ebc18ecb15; MONITOR_WEB_ID=1e0b7d68-ea3e-412f-a7a5-bb3c77ce0dc5; _ga=GA1.2.985649972.1632398926; passport_csrf_token_default=2cf3d362a91950e431b2e51cab069a18; passport_csrf_token=2cf3d362a91950e431b2e51cab069a18; n_mh=9-mIeuD4wZnlYrrOvfzG3MuT6aQmCUtmr8FxV8Kl8xY; sid_guard=9c50a894b5b340638027bd0879588bfa%7C1632499399%7C5183999%7CTue%2C+23-Nov-2021+16%3A03%3A18+GMT; uid_tt=bfa9229af782290d7f6768e367420c96; uid_tt_ss=bfa9229af782290d7f6768e367420c96; sid_tt=9c50a894b5b340638027bd0879588bfa; sessionid=9c50a894b5b340638027bd0879588bfa; sessionid_ss=9c50a894b5b340638027bd0879588bfa; sid_ucp_v1=1.0.0-KDY5N2E4NWUyNDYxZGM4N2RlZDYwOGY1OTFkZWE3YjZhMTQyYjY5NTMKFgjNieD6zYzeBxDH7beKBhiwFDgIQDgaAmxmIiA5YzUwYTg5NGI1YjM0MDYzODAyN2JkMDg3OTU4OGJmYQ; ssid_ucp_v1=1.0.0-KDY5N2E4NWUyNDYxZGM4N2RlZDYwOGY1OTFkZWE3YjZhMTQyYjY5NTMKFgjNieD6zYzeBxDH7beKBhiwFDgIQDgaAmxmIiA5YzUwYTg5NGI1YjM0MDYzODAyN2JkMDg3OTU4OGJmYQ; odin_tt=7f91b530db2f82ceb2662b4c7bf35f33a62346a4da076907fcb4474e0167eba0db463e338e16fca10321b260ff171bcf81dcfe2d22bc97b8cb23918ffbf88b16; tt_scid=vqAarVDMb0btDVDFtk0C4qgebcV5QfAI6BxtKE6zUA1r1FgOKddskRR94acET9LA3635'
 

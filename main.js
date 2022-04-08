@@ -1,3 +1,3 @@
-exports.main_handle = (envet,context, callback) => {
-    require('./juejin')
+exports.main_handle = (envet, context, callback) => {
+    require('./script/juejin')
 }
