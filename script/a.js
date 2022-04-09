@@ -1,8 +1,11 @@
 const fetch = require('node-fetch');
+const axios = require('axios');
 
+const cookie = 'ttcid=686bafc1a05e44eeb4d30ab23d96e9f035; _tea_utm_cache_2608=undefined; _ga=GA1.2.1683813187.1646191008; MONITOR_WEB_ID=96515287-07dd-46ba-af21-348748c90097; __tea_cookie_tokens_2608=%257B%2522web_id%2522%253A%25227070336511027398182%2522%252C%2522user_unique_id%2522%253A%25227070336511027398182%2522%252C%2522timestamp%2522%253A1646191008392%257D; _gid=GA1.2.1177143367.1648629437; s_v_web_id=verify_l1dbei86_Pa7B2vE6_8kxe_426s_8oQ3_75dDdNSNq3uA; passport_csrf_token=fc343a2566210cdff4080d24352bac8e; passport_csrf_token_default=fc343a2566210cdff4080d24352bac8e; odin_tt=d84b57e18dc290696d70a2eb886b982ab48c74dc98674f3d78a5af77254db66c1b17c51c9cd5d9630422f41f115dbf9827de1b3bbbbe4fb20c6885983ba22489; n_mh=9-mIeuD4wZnlYrrOvfzG3MuT6aQmCUtmr8FxV8Kl8xY; sid_guard=7a39dccc2b6f195c2f025e9fb2c8f8e4%7C1648629456%7C5184000%7CSun%2C+29-May-2022+08%3A37%3A36+GMT; uid_tt=b75ac0cb7d66ffced0012fbf8d88f057; uid_tt_ss=b75ac0cb7d66ffced0012fbf8d88f057; sid_tt=7a39dccc2b6f195c2f025e9fb2c8f8e4; sessionid=7a39dccc2b6f195c2f025e9fb2c8f8e4; sessionid_ss=7a39dccc2b6f195c2f025e9fb2c8f8e4; sid_ucp_v1=1.0.0-KGVjMmZiMTkyZGNkMzczYzlkYjIzOGY1ODcyMTY4MWMyNzYyMjExNzQKFgjdg4CLxIyNAhDQrZCSBhiwFDgIQAsaAmxmIiA3YTM5ZGNjYzJiNmYxOTVjMmYwMjVlOWZiMmM4ZjhlNA; ssid_ucp_v1=1.0.0-KGVjMmZiMTkyZGNkMzczYzlkYjIzOGY1ODcyMTY4MWMyNzYyMjExNzQKFgjdg4CLxIyNAhDQrZCSBhiwFDgIQAsaAmxmIiA3YTM5ZGNjYzJiNmYxOTVjMmYwMjVlOWZiMmM4ZjhlNA; _gat=1; tt_scid=HZA.V6WNWNEyYEGzuR2cpmrT6ARyddk9QxpQyAnNDA5KDeBCqKuvfDTvG4h.fC6Z346a'
+const token = 'e9d0a329ba0b4fd185f13f9f530fdadb'
 
-let score = 0;
-const cookie = 'ttcid=686bafc1a05e44eeb4d30ab23d96e9f035; _tea_utm_cache_2608=undefined; _ga=GA1.2.1683813187.1646191008; MONITOR_WEB_ID=96515287-07dd-46ba-af21-348748c90097; __tea_cookie_tokens_2608=%257B%2522web_id%2522%253A%25227070336511027398182%2522%252C%2522user_unique_id%2522%253A%25227070336511027398182%2522%252C%2522timestamp%2522%253A1646191008392%257D; passport_csrf_token=fc343a2566210cdff4080d24352bac8e; passport_csrf_token_default=fc343a2566210cdff4080d24352bac8e; n_mh=9-mIeuD4wZnlYrrOvfzG3MuT6aQmCUtmr8FxV8Kl8xY; _gid=GA1.2.1446631280.1649233825; s_v_web_id=verify_l1r8ms5e_MmCh61ZF_BGUw_4BaG_8x9S_ALMK7lk7mL2Q; tt_scid=i9pnrfL.4nk5TMjedXC.UKEHxSZ6eV4pLiHCaeLeq58LxZiUhYv47qPK9Z3EbiEP1cad; odin_tt=16beb27f3848993d6e52c63497244e08cfe0d9287c57dc82b5f4fbaec0b9bdce828dda307a8a69eb32b56884a2fc223069691f6c921b75dd912db6bb3fa501ef; sid_guard=6199568a248838755960c03b67678b5f%7C1649472318%7C5184000%7CWed%2C+08-Jun-2022+02%3A45%3A18+GMT; uid_tt=b704f6b95b6a54855798770968404b49; uid_tt_ss=b704f6b95b6a54855798770968404b49; sid_tt=6199568a248838755960c03b67678b5f; sessionid=6199568a248838755960c03b67678b5f; sessionid_ss=6199568a248838755960c03b67678b5f; sid_ucp_v1=1.0.0-KDNiNGY0ZTQwZmQyYjZjYTQxZWY1Yzk1OTQzOWExMzI5YTYxNzc0YWIKFQjX49D50IwxEL7mw5IGGLAUOAhAARoCbGYiIDYxOTk1NjhhMjQ4ODM4NzU1OTYwYzAzYjY3Njc4YjVm; ssid_ucp_v1=1.0.0-KDNiNGY0ZTQwZmQyYjZjYTQxZWY1Yzk1OTQzOWExMzI5YTYxNzc0YWIKFQjX49D50IwxEL7mw5IGGLAUOAhAARoCbGYiIDYxOTk1NjhhMjQ4ODM4NzU1OTYwYzAzYjY3Njc4YjVm; _gat=1'
+// 当前矿石，签到信息，抽奖信息
+let score = 0,message,award
 
 const headers = {
   'content-type': 'application/json; charset=utf-8',
@@ -16,10 +19,6 @@ const headers = {
   cookie
 };
 
-
-const token = 'e9d0a329ba0b4fd185f13f9f530fdadb' 
-const title= '掘金' 
-const content ='签到信息' 
 
 // 抽奖
 const drawFn = async () => {
@@ -39,11 +38,11 @@ const drawFn = async () => {
     method: 'POST',
     credentials: 'include'
   }).then((res) => res.json());
-  // console.log(draw);
 
   if (draw.err_no !== 0) return Promise.reject('已经签到！免费抽奖异常！');
-  console.log('已经签到！免费抽奖异常！');
+  console.log(JSON.stringify(draw, null, 2));
   if (draw.data.lottery_type === 1) score += 66;
+  award = draw.data.lottery_name
   return Promise.resolve(`签到成功！恭喜抽到：${draw.data.lottery_name}`);
 };
 
@@ -55,7 +54,6 @@ const drawFn = async () => {
     method: 'GET',
     credentials: 'include'
   }).then((res) => res.json());
-  console.log(today_status);
   if (today_status.err_no !== 0) return Promise.reject('签到失败！');
   if (today_status.data) return Promise.resolve('今日已经签到！');
 
@@ -70,7 +68,7 @@ const drawFn = async () => {
   return Promise.resolve(`签到成功！当前积分；${check_in.data.sum_point}`);
 })()
   .then((msg) => {
-    console.log('1111',msg);
+    message = msg
     return fetch('https://api.juejin.cn/growth_api/v1/get_cur_point', {
       headers,
       method: 'GET',
@@ -78,25 +76,22 @@ const drawFn = async () => {
     }).then((res) => res.json());
   })
   .then((res) => {
-    console.log('2222',res);
     score = res.data;
     return drawFn();
   })
-  .then((msg) => {
-    console.log('3333',msg);
-    const data = {
-      "token":'e9d0a329ba0b4fd185f13f9f530fdadb',
-      "title":title,
-      "content":content
-    }
-    // let body=json.dumps(data).encode(encoding='utf-8')
-    return fetch('http://www.pushplus.plus/send', {
-      headers,
-      method: 'POST',
-      body:data
-    }).then((res) => res.json())
+  .then(() => {
+    console.log("当前矿石：", score);
+    console.log("签到信息：", message);
+    console.log("抽奖结果", award);
+    return axios({
+      method: 'post',
+      url: 'http://www.pushplus.plus/send',
+      data: {
+        'token': token,
+        'title': '签到通知',
+        'content': `「掘金」\n当前矿石：${score}\n签到信息：${message}\n抽奖结果：${award}`
+      }
+    })
 
   })
-  .then((res) => {
-    console.log('4444',res);
-  })
+

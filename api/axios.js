@@ -2,11 +2,14 @@ const axios = require('axios');
 const http = axios.create({
   // baseURL: process.env.VUE_APP_BASE_API,
   timeout: 50000,
+  withCredentials: false,
+  responseEncoding: 'utf8',
 })
 http.interceptors.request.use(config => {
   return config;
 })
 http.interceptors.response.use(response => {
+  // console.log(response);
   return response;
 }, error => {
   // 错误响应信息
@@ -57,19 +60,50 @@ http.interceptors.response.use(response => {
   return Promise.reject(error.message)
 })
 
-module.exports = function ajax(url, data = {}, headers = {}, type = "GET") {
+exports.request = function (url, data = {}, config = {}, type = "POST") {
   // data作为请求体发送的的数据只适用put,post,patch
+  let promiseData;
+  return new Promise((resolve, reject) => {
+    switch (type) {
+      case "POST":
+        promiseData = http.post(url, data, {headers:config})
+        break;
+      case "PUT":
+        promiseData = http.put(url, data, {headers:config})
+        break;
+      case "PATCH":
+        promiseData = http.patch(url, data, {headers:config})
+        break;
+      default:
+        break;
+    }
+    try {
+      promiseData.then(result => resolve(result.data))
+        // 处理失败的请求
+        .catch(error => console.log("错误：", error))
+    } catch (error) {
+      console.log(error);
+    }
+  })
+}
+exports.ajax = function (url, config = {}, type = "GET") {
+  // 非data作为请求体发送的的数据只适用get,delete,head,options
+  // config = {Headers: config}
   let promise;
   return new Promise((resolve, reject) => {
     switch (type) {
       case "GET":
-        promise = http.get(url, { params: data,headers })
-        break;
-      case "POST":
-        promise = http.post(url, data, headers)
+        promise = http.get(url, {headers:config})
+        // console.log(promise);
         break;
       case "DELETE":
-        promise = http.delete(url, _)
+        promise = http.delete(url, {headers:config})
+        break;
+      case "HEAD":
+        promise = http.head(url, {headers:config})
+        break;
+      case "OPTIONS":
+        promise = http.options(url, {headers:config})
         break;
       default:
         break;
