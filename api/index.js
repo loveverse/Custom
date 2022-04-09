@@ -19,4 +19,4 @@ exports.getTodayStatus = (headers) => ajax('https://api.juejin.cn/growth_api/v1/
 // }).then(res => console.log(res))
 exports.checkIn = (headers) => request('https://api.juejin.cn/growth_api/v1/check_in', {}, headers)
 exports.getCurPoint = (headers) => ajax('https://api.juejin.cn/growth_api/v1/get_cur_point', headers)
-exports.sendInfo = (data) => request('http://www.pushplus.plus/send', {data})
+exports.sendInfo = (data) => request('http://www.pushplus.plus/send', data)

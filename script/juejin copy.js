@@ -1,13 +1,11 @@
 const fetch = require('node-fetch');
+const axios = require('axios');
 
-
-let score = 0;
-const cookie = 'ttcid=686bafc1a05e44eeb4d30ab23d96e9f035; _tea_utm_cache_2608=undefined; _ga=GA1.2.1683813187.1646191008; MONITOR_WEB_ID=96515287-07dd-46ba-af21-348748c90097; __tea_cookie_tokens_2608=%257B%2522web_id%2522%253A%25227070336511027398182%2522%252C%2522user_unique_id%2522%253A%25227070336511027398182%2522%252C%2522timestamp%2522%253A1646191008392%257D; passport_csrf_token=fc343a2566210cdff4080d24352bac8e; passport_csrf_token_default=fc343a2566210cdff4080d24352bac8e; n_mh=9-mIeuD4wZnlYrrOvfzG3MuT6aQmCUtmr8FxV8Kl8xY; _gid=GA1.2.1446631280.1649233825; s_v_web_id=verify_l1r8ms5e_MmCh61ZF_BGUw_4BaG_8x9S_ALMK7lk7mL2Q; tt_scid=i9pnrfL.4nk5TMjedXC.UKEHxSZ6eV4pLiHCaeLeq58LxZiUhYv47qPK9Z3EbiEP1cad; odin_tt=16beb27f3848993d6e52c63497244e08cfe0d9287c57dc82b5f4fbaec0b9bdce828dda307a8a69eb32b56884a2fc223069691f6c921b75dd912db6bb3fa501ef; sid_guard=6199568a248838755960c03b67678b5f%7C1649472318%7C5184000%7CWed%2C+08-Jun-2022+02%3A45%3A18+GMT; uid_tt=b704f6b95b6a54855798770968404b49; uid_tt_ss=b704f6b95b6a54855798770968404b49; sid_tt=6199568a248838755960c03b67678b5f; sessionid=6199568a248838755960c03b67678b5f; sessionid_ss=6199568a248838755960c03b67678b5f; sid_ucp_v1=1.0.0-KDNiNGY0ZTQwZmQyYjZjYTQxZWY1Yzk1OTQzOWExMzI5YTYxNzc0YWIKFQjX49D50IwxEL7mw5IGGLAUOAhAARoCbGYiIDYxOTk1NjhhMjQ4ODM4NzU1OTYwYzAzYjY3Njc4YjVm; ssid_ucp_v1=1.0.0-KDNiNGY0ZTQwZmQyYjZjYTQxZWY1Yzk1OTQzOWExMzI5YTYxNzc0YWIKFQjX49D50IwxEL7mw5IGGLAUOAhAARoCbGYiIDYxOTk1NjhhMjQ4ODM4NzU1OTYwYzAzYjY3Njc4YjVm; _gat=1'
+const cookie = 'ttcid=21ec73858f9b476c8c43dd6d64a5d64431; MONITOR_WEB_ID=529f13f3-657f-45ae-afaf-ccd70f5475e2; _tea_utm_cache_2608=undefined; __tea_cookie_tokens_2608=%7B%22web_id%22%3A%227073283979609114147%22%2C%22user_unique_id%22%3A%227073283979609114147%22%2C%22timestamp%22%3A1646877273589%7D; _ga=GA1.2.2112200705.1646877274; _gid=GA1.2.1507555314.1649472122; s_v_web_id=verify_l1r945v6_cdV15r1h_LN4W_4AHr_BVKn_k5xpDAO4u6vq; passport_csrf_token=127f9414f8d614204c0612f670aecd05; passport_csrf_token_default=127f9414f8d614204c0612f670aecd05; _tea_utm_cache_2018=undefined; MONITOR_DEVICE_ID=76ec6464-8bae-40de-95f4-d4d0242de09c; odin_tt=0f40a03012d582ec81e8328a93c1ff9c8c50b4e9eb5eed93915760edf0cfee82a851c5fdc4b53f1e969ccc8bccb8d5651f7a5e7dfb0f7d95a0a085c4346af810; n_mh=LNz3wBFnXmvQdywTeu7WxxLQn-jXDTkSIpBm6Ne-VYw; passport_auth_status=7c3f64c0013554e5ed3be974b0b93ade,; passport_auth_status_ss=7c3f64c0013554e5ed3be974b0b93ade,; sid_guard=3a3d10c5d7aa1266735f53f9aee15850|1649487769|5184000|Wed,+08-Jun-2022+07:02:49+GMT; uid_tt=265a05620a478081ff10073958d6a9f3; uid_tt_ss=265a05620a478081ff10073958d6a9f3; sid_tt=3a3d10c5d7aa1266735f53f9aee15850; sessionid=3a3d10c5d7aa1266735f53f9aee15850; sessionid_ss=3a3d10c5d7aa1266735f53f9aee15850; sid_ucp_v1=1.0.0-KGY0NmM1MDRmYWFmNDM0MmY1OGVkYWQ2ODk5ZmE5NTdiMDQ3MjJmMzkKFwj4mcCX0YzFAhCZ38SSBhiwFDgCQOwHGgJsZiIgM2EzZDEwYzVkN2FhMTI2NjczNWY1M2Y5YWVlMTU4NTA; ssid_ucp_v1=1.0.0-KGY0NmM1MDRmYWFmNDM0MmY1OGVkYWQ2ODk5ZmE5NTdiMDQ3MjJmMzkKFwj4mcCX0YzFAhCZ38SSBhiwFDgCQOwHGgJsZiIgM2EzZDEwYzVkN2FhMTI2NjczNWY1M2Y5YWVlMTU4NTA; tt_scid=miIts5Vfqpx6CZ4Uq46qG5UZ6cSsvRzuv97uP5XxuK9dag02ySP1fWvbVadvM0KEbc5e'
 
 const headers = {
   'content-type': 'application/json; charset=utf-8',
   'user-agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36',
-  'accept-encoding': 'gzip, deflate, br',
   'accept-language': 'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7',
   'sec-ch-ua': '"Chromium";v="88", "Google Chrome";v="88", ";Not A Brand";v="99"',
   'sec-ch-ua-mobile': '?0',
@@ -15,7 +13,7 @@ const headers = {
   accept: '*/*',
   cookie
 };
-
+let score = 0, message, award
 
 const token = 'e9d0a329ba0b4fd185f13f9f530fdadb' 
 const title= '掘金' 
@@ -28,10 +26,16 @@ const drawFn = async () => {
     headers,
     method: 'GET',
     credentials: 'include'
-  }).then((res) => res.json());
-
+  }).then((res) =>{
+    console.log(res);
+    return res.json()
+  });
+  console.log("4343",today);
   if (today.err_no !== 0) return Promise.reject('已经签到！免费抽奖失败！');
   if (today.data.free_count === 0) return Promise.resolve('签到成功！今日已经免费抽奖！');
+
+
+
 
   // 免费抽奖
   const draw = await fetch('https://api.juejin.cn/growth_api/v1/lottery/draw', {
@@ -39,13 +43,17 @@ const drawFn = async () => {
     method: 'POST',
     credentials: 'include'
   }).then((res) => res.json());
-  // console.log(draw);
+  console.log("12222222222",draw);
 
   if (draw.err_no !== 0) return Promise.reject('已经签到！免费抽奖异常！');
   console.log('已经签到！免费抽奖异常！');
   if (draw.data.lottery_type === 1) score += 66;
+  award = draw.data.lottery_name
   return Promise.resolve(`签到成功！恭喜抽到：${draw.data.lottery_name}`);
 };
+
+
+
 
 // 签到
 (async () => {
@@ -70,6 +78,7 @@ const drawFn = async () => {
   return Promise.resolve(`签到成功！当前积分；${check_in.data.sum_point}`);
 })()
   .then((msg) => {
+    message = msg
     console.log('1111',msg);
     return fetch('https://api.juejin.cn/growth_api/v1/get_cur_point', {
       headers,
@@ -87,16 +96,12 @@ const drawFn = async () => {
     const data = {
       "token":'e9d0a329ba0b4fd185f13f9f530fdadb',
       "title":title,
-      "content":content
+      "content":`「掘金」\n当前矿石：${score}\n签到信息：${message}\n抽奖结果：${award}`
     }
     // let body=json.dumps(data).encode(encoding='utf-8')
-    return fetch('http://www.pushplus.plus/send', {
+    return axios('http://www.pushplus.plus/send', {
       headers,
       method: 'POST',
-      body:data
-    }).then((res) => res.json())
-
-  })
-  .then((res) => {
-    console.log('4444',res);
+      data
+    }).then((res) => console.log(res.data))
   })
