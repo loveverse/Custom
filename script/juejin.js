@@ -1,10 +1,8 @@
 const { juejin } = require('../config/config');
-const { lotteryConfig, lottery, getTodayStatus, checkIn, getCurPoint, sendInfo, getUserInfo } = require('../api');
+const { lotteryConfig, lottery, getTodayStatus, checkIn, getCurPoint, getUserInfo } = require('../api');
 
-async function getInfo() {
-
-  const info = [];
-  juejin.forEach(async item => {
+function getInfo() {
+  const info = juejin.map(item => {
     const headers = {
       'content-type': 'application/json; charset=utf-8',
       'user-agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36',
@@ -22,11 +20,11 @@ async function getInfo() {
       message: '',
       award: ''
     }
-    if (item.cookie === '') return
+    if (!item.cookie) return
     headers.cookie = item.cookie
 
     // 抽奖
-    const drawFn = async () => {
+    async function drawFn() {
       // 查询今日是否有免费抽奖机会
       const today = await lotteryConfig(headers)
       if (today.err_no !== 0) return Promise.reject('已经签到！免费抽奖失败！')
@@ -42,8 +40,8 @@ async function getInfo() {
       return Promise.resolve(`签到成功！恭喜抽到：${draw.data.lottery_name}`);
     };
 
-
-    const msg = await (async () => {
+    // 签到
+    async function signIn() {
       // 查询用户信息
       const result = await getUserInfo(headers)
       obj.username = result.data.user_name
@@ -56,20 +54,21 @@ async function getInfo() {
       const check_in = await checkIn(headers)
       if (check_in.err_no !== 0) return Promise.reject('签到异常！')
       return Promise.resolve(`签到成功！当前积分；${check_in.data.sum_point}`)
+    }
 
+    (async () => {
+      const msg = await signIn()
+      obj.message = msg
+      const result = await getCurPoint(headers);
+      obj.score = result.data
+      await drawFn()
+      return obj
     })()
-    obj.message = msg
-    const result = await getCurPoint(headers);
-    obj.score = result.data
-    drawFn()
-    info.push(obj)
-    console.log('infos', info);
-
-
   })
-  console.log('info', info)
-  return Promise.resolve(info)
+
+  return info
 }
+const info = getInfo()
+console.log("info", info);
 
-
-module.exports = getInfo
+// module.exports = getInfo
