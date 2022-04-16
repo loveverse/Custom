@@ -9,8 +9,6 @@ const { sendInfo } = require('../api');
   let str = ''
   msgData.forEach((item, index) => {
     str += `帐号${index + 1}🆔：${item.username}\n当前矿石：${item.score}\n签到信息：${item.message}\n抽奖结果：${item.award}\n\n`
-    // str.concat('\n')
-    // str += '\n'
   })
   const data = {
     token: pushplus_token,
