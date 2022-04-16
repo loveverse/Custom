@@ -4,6 +4,7 @@
 执行结束发送pushplus通知签到结果。
 
 使用方法：云函数部署
+直接在config中填写cookie和pushplus的token即可
 
 ✔ 掘金签到(支持多账号)
 
