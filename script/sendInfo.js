@@ -1,27 +1,23 @@
 
-const getInfo = require('./juejin');
+const init = require('./juejin');
+const { pushplus_token,pushplus_topic } = require('../config/config');
 const { sendInfo } = require('../api');
 
-// console.log('getInfo', );
 (async () => {
-  const info = await getInfo()
-  console.log(info);
+  const msgData = await init()
+  console.log(msgData);
+  let str = ''
+  msgData.forEach((item, index) => {
+    str += `帐号${index + 1}🆔：${item.username}\n当前矿石：${item.score}\n签到信息：${item.message}\n抽奖结果：${item.award}\n\n`
+    // str.concat('\n')
+    // str += '\n'
+  })
+  const data = {
+    token: pushplus_token,
+    title: '掘金签到',
+    // content: `「掘金」${str}`
+    content: str,
+    topic: pushplus_topic
+  }
+  await sendInfo(data)
 })()
-// (async () => {
-
-//   const info = await getInfo();
-//   (async () => {
-//     let str = ''
-//     info.forEach(item => {
-//       str += `\n帐号信息：${item.username}\n当前矿石：${item.score}\n签到信息：${item.message}\n抽奖结果：${item.award}`
-//     });
-//     const data = {
-//       token: 'e9d0a329ba0b4fd185f13f9f530fdadb',
-//       title: '掘金签到',
-//       content: `「掘金」${str}`
-//     }
-//     console.log(info);
-//     await sendInfo(data)
-//   })()
-          
-// })()
