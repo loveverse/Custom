@@ -2,8 +2,6 @@ const { juejin } = require('../config/config');
 const { lotteryConfig, lottery, getTodayStatus, checkIn, getCurPoint, getUserInfo } = require('../api');
 
 async function init() {
-  // let msgData = []
-  
   return await Promise.all(
     juejin.map(async item => {
       const headers = {
