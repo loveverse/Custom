@@ -1,4 +1,4 @@
-const { juejin } = require('../config/config');
+const { juejin } = require('../config/config.temp');
 const { lotteryConfig, lottery, getTodayStatus, checkIn, getCurPoint, getUserInfo } = require('../api');
 
 async function jjInit() {
@@ -7,7 +7,7 @@ async function jjInit() {
       const headers = {
         'referer': 'https://juejin.cn/',
       };
-      // 帐户信息，当前矿石，签到信息，抽奖结果
+      // 帐户信息，签到后矿石，签到信息，抽奖结果
       const obj = {
         username: '',
         score: '',
@@ -28,9 +28,7 @@ async function jjInit() {
           // 免费抽奖
           const draw = await lottery(headers)
           if (draw.err_no !== 0) return reject('已经签到！免费抽奖异常！');
-          // if (draw.data.lottery_type === 1) {
-          //   score += parseInt(draw.data.lottery_name)
-          // }
+
           obj.award = draw.data.lottery_name
           return resolve(`签到成功！恭喜抽到：${draw.data.lottery_name}`);
         })
@@ -59,21 +57,20 @@ async function jjInit() {
         })
       }
       async function init() {
-          const msg = await signIn()
-          if(msg === 500) {
-            obj.message = 'cookie失效，请重新设置！'
-            console.log(obj);
-            return Promise.resolve(obj)
-          }
-          obj.message = msg
-          // 获取用户签到信息
-          const result = await getCurPoint(headers);
-          obj.score = result.data
-          await drawFn()
+        const msg = await signIn()
+        if (msg === 500) {
+          obj.message = 'cookie失效，请重新设置！'
+          // console.log(obj);
           return Promise.resolve(obj)
+        }
+        obj.message = msg
+        // 获取用户签到信息
+        const result = await getCurPoint(headers);
+        obj.score = result.data
+        await drawFn()
+        return Promise.resolve(obj)
       }
       return await init()
-      // return 
     })
   )
 }

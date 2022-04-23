@@ -5,6 +5,7 @@
 
 使用方法：云函数部署
 直接在config中填写cookie和pushplus的token即可
+将scrtip每个文件的config.temp改成config即可
 
 ✔ 掘金签到(支持多账号)
-
+✔ 速蛙云(支持多账号)

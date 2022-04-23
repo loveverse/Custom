@@ -1,1 +1,1 @@
-require('./juejin')
+require('./sendInfo')
