@@ -4,7 +4,7 @@
   "description": "定时任务 自动签到 自动抽奖",
   "main": "index.js",
   "scripts": {
-    "serve": "node index.js"
+    "serve": "node main.js"
   },
   "repository": {
     "type": "git",

@@ -21,16 +21,22 @@ async function jjInit() {
       function drawFn() {
         // 查询今日是否有免费抽奖机会
         return new Promise(async (resolve, reject) => {
-          const today = await lotteryConfig(headers)
-          if (today.err_no !== 0) return reject('已经签到！免费抽奖失败！')
-          if (today.data.free_count === 0) return resolve('签到成功！今日已经免费抽奖！')
+          try {
+            const today = await lotteryConfig(headers)
+            // console.log(today);
+            if (today.err_no !== 0) return reject('已经签到！免费抽奖失败！')
+            if (today.data.free_count === 0) return resolve('签到成功！今日已经免费抽奖！')
 
-          // 免费抽奖
-          const draw = await lottery(headers)
-          if (draw.err_no !== 0) return reject('已经签到！免费抽奖异常！');
+            // 免费抽奖
+            const draw = await lottery(headers)
+            console.log(draw);
+            if (draw.err_no !== 0) return reject('已经签到！免费抽奖异常！');
 
-          obj.award = draw.data.lottery_name
-          return resolve(`签到成功！恭喜抽到：${draw.data.lottery_name}`);
+            obj.award = draw.data.lottery_name
+            return resolve(`签到成功！恭喜抽到：${draw.data.lottery_name}`);
+          } catch (error) {
+            console.log("没有绑定手机号");
+          }
         })
       };
 
